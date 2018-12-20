@@ -1,4 +1,4 @@
-module Coinbase
+module CoinbasePrime
   # Gem version
   module Exchange
     VERSION = "0.2.0"

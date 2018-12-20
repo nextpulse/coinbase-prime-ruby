@@ -1,4 +1,4 @@
-module Coinbase
+module CoinbasePrime
   module Exchange
     # Response item abstract model
     class APIObject < Hash

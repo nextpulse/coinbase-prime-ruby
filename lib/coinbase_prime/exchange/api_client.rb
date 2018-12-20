@@ -1,9 +1,9 @@
-module Coinbase
+module CoinbasePrime
   module Exchange
     # Net-http client for Coinbase Exchange API
     class APIClient
       def initialize(api_key = '', api_secret = '', api_pass = '', options = {})
-        @api_uri = URI.parse(options[:api_url] || "https://api.pro.coinbase.com")
+        @api_uri = URI.parse(options[:api_url] || "https://api.prime.coinbase.com")
         @api_pass = api_pass
         @api_key = api_key
         @api_secret = api_secret

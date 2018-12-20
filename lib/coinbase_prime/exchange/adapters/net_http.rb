@@ -1,4 +1,4 @@
-module Coinbase
+module CoinbasePrime
   module Exchange
     # Net-HTTP adapter
     class NetHTTPClient < APIClient

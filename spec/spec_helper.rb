@@ -4,7 +4,7 @@ require 'em-http'
 
 Bundler.setup
 
-require 'coinbase/exchange'
+require 'coinbase_prime/exchange'
 
 MARKET_REFS   = [ :currencies,
                   :products,

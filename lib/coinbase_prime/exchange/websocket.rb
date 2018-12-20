@@ -1,4 +1,4 @@
-module Coinbase
+module CoinbasePrime
   module Exchange
     # Websocket client for Coinbase Exchange
     class Websocket

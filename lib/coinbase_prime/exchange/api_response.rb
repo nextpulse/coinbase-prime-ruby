@@ -1,4 +1,4 @@
-module Coinbase
+module CoinbasePrime
   module Exchange
     # Encapsulate data for an API response
     class APIResponse

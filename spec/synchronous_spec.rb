@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe Coinbase::Exchange::Client do
+describe CoinbasePrime::Exchange::Client do
   before :all do
-    @client = Coinbase::Exchange::Client.new 'api_pass', 'api_key', 'api_secret'
+    @client = CoinbasePrime::Exchange::Client.new 'api_pass', 'api_key', 'api_secret'
   end
 
   it "responds to all endpoints" do
@@ -25,7 +25,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /currencies/).to_return(body: mock_collection.to_json)
     @client.currencies do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item).to eq(mock_item)
       end
     end
@@ -35,7 +35,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /products/).to_return(body: mock_collection.to_json)
     @client.products do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item).to eq(mock_item)
       end
     end
@@ -45,7 +45,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /products.BTC-USD.ticker/)
       .to_return(body: mock_item.to_json)
     @client.last_trade do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out).to eq(mock_item)
     end
   end
@@ -54,7 +54,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /products.BTC-LTC.ticker/)
       .to_return(body: mock_item.to_json)
     @client.last_trade(product_id: "BTC-LTC") do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out).to eq(mock_item)
     end
   end
@@ -71,7 +71,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /accounts/).to_return(body: mock_collection.to_json)
     @client.accounts do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item).to eq(mock_item)
       end
     end
@@ -80,7 +80,7 @@ describe Coinbase::Exchange::Client do
   it "gets account" do
     stub_request(:get, /accounts.test/).to_return(body: mock_item.to_json)
     @client.account("test") do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out).to eq(mock_item)
     end
   end
@@ -101,7 +101,7 @@ describe Coinbase::Exchange::Client do
       .to_return(body: mock_collection.to_json)
     @client.account_holds("test") do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item).to eq(mock_item)
       end
     end
@@ -112,7 +112,7 @@ describe Coinbase::Exchange::Client do
       .with(body: hash_including('side' => 'buy'))
       .to_return(body: mock_item.to_json)
     @client.bid(10, 250) do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out['status']).to eq('OK')
     end
   end
@@ -122,7 +122,7 @@ describe Coinbase::Exchange::Client do
       .with(body: hash_including('side' => 'sell'))
       .to_return(body: mock_item.to_json)
     @client.ask(10, 250) do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out['status']).to eq('OK')
     end
   end
@@ -138,7 +138,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /orders/).to_return(body: mock_collection.to_json)
     @client.orders do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item['status']).to eq('OK')
       end
     end
@@ -147,7 +147,7 @@ describe Coinbase::Exchange::Client do
   it "gets an order" do
     stub_request(:get, /orders.test/).to_return(body: mock_item.to_json)
     @client.order('test') do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out['status']).to eq('OK')
     end
   end
@@ -156,7 +156,7 @@ describe Coinbase::Exchange::Client do
     stub_request(:get, /fills/).to_return(body: mock_collection.to_json)
     @client.fills do |out|
       out.each do |item|
-        expect(item.class).to eq(Coinbase::Exchange::APIObject)
+        expect(item.class).to eq(CoinbasePrime::Exchange::APIObject)
         expect(item['status']).to eq('OK')
       end
     end
@@ -167,7 +167,7 @@ describe Coinbase::Exchange::Client do
       .with(body: hash_including('type' => 'deposit'))
       .to_return(body: mock_item.to_json)
     @client.deposit(SecureRandom.uuid, 10) do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out['status']).to eq('OK')
     end
   end
@@ -177,7 +177,7 @@ describe Coinbase::Exchange::Client do
       .with(body: hash_including('type' => 'withdraw'))
       .to_return(body: mock_item.to_json)
     @client.withdraw(SecureRandom.uuid, 10) do |out|
-      expect(out.class).to eq(Coinbase::Exchange::APIObject)
+      expect(out.class).to eq(CoinbasePrime::Exchange::APIObject)
       expect(out['status']).to eq('OK')
     end
   end
