@@ -6,7 +6,7 @@ module CoinbasePrime
         super(api_key, api_secret, api_pass, options)
         @conn = Net::HTTP.new(@api_uri.host, @api_uri.port)
         @conn.use_ssl = true if @api_uri.scheme == 'https'
-        @conn.cert_store = self.class.whitelisted_certificates
+        #@conn.cert_store = self.class.whitelisted_certificates
         @conn.ssl_version = :TLSv1
       end
 
