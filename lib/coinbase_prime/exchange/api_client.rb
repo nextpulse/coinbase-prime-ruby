@@ -114,7 +114,7 @@ module CoinbasePrime
         end
         out
       end
-
+      
       def account(id, params = {})
         out = nil
         get("/accounts/#{id}", params) do |resp|
@@ -124,6 +124,16 @@ module CoinbasePrime
         out
       end
 
+      # This new method is to allow the caller more pagination control
+      def account_history_paginate(id, params = {})
+        out = nil
+        get("/accounts/#{id}/ledger", params) do |resp|
+          out = response_collection(resp)
+          yield(out, resp) if block_given?
+        end
+        out
+      end
+      
       def account_history(id, params = {})
         out = nil
         get("/accounts/#{id}/ledger", params, paginate: true) do |resp|
@@ -246,7 +256,7 @@ module CoinbasePrime
 
       def response_collection(resp)
         out = resp.map { |item| APIObject.new(item) }
-        out.instance_eval { @response = resp }
+        out.instance_eval { @response = resp.response }
         add_metadata(out)
         out
       end
@@ -293,9 +303,20 @@ module CoinbasePrime
 
           if options[:paginate] && out.count == params[:limit]
             params[:after] = resp.headers['CB-AFTER']
-            get(path, params, options) do |pages|
-              out += pages
-              add_metadata(out)
+            
+            # Stop fething whenever the :after cursor crosses
+            # the :before cursor (if present), which means that
+            # we already got everything we need. This is only applicable
+            # when the :before cursor is present. If not present,
+            # `params[:before].to_i` returns 0 and we will continue fetching
+            # everything until the very last page.
+            if (params[:after].to_i + 1) > params[:before].to_i
+              get(path, params, options) do |pages|
+                out += pages
+                add_metadata(out)
+                yield(out)
+              end
+            else              
               yield(out)
             end
           else

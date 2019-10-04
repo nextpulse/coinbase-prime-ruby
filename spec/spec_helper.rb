@@ -16,6 +16,7 @@ MARKET_REFS   = [ :currencies,
 
 ACCOUNT_REFS  = [ :accounts,
                   :account,
+                  :account_history_paginate,
                   :account_history,
                   :account_holds ]
 
